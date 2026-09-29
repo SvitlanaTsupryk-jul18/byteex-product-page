@@ -155,7 +155,7 @@ export const landingPageContent: LandingPage = {
         {
           id: 'step-enjoy',
           title: 'You enjoy!',
-          description: 'Wear them around the house, out on the town, or in bed.',
+          description: 'Wear hernest around the house, out on the town, or in bed.',
           icon: 'sun',
         },
       ],
