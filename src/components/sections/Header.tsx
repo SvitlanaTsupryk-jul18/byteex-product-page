@@ -5,7 +5,7 @@ export function Header() {
       <a
         href="/"
         aria-label="Byteex home"
-        className="text-2xl font-bold tracking-[0.2em] text-ink md:text-3xl"
+        className="font-heading text-2xl font-bold tracking-[0.2em] text-ink md:text-3xl"
       >
         BYTEEX
       </a>

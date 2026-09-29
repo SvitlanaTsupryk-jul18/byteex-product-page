@@ -15,6 +15,7 @@
     "cms:seed": "tsx scripts/contentful/seed.ts"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/jost": "^5.3.0",
     "contentful": "^11.12.10",
     "react": "^19.2.8",

@@ -21,7 +21,7 @@ export function ImpactSection({ section }: { section: ImpactSectionData }) {
               {stat.description && (
                 <dt className="order-2 text-xs text-muted">{stat.description}</dt>
               )}
-              <dd className="order-1 text-base font-medium text-navy">{stat.title}</dd>
+              <dd className="order-1 font-heading text-base font-medium text-navy">{stat.title}</dd>
             </div>
           ))}
         </dl>

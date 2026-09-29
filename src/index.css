@@ -6,13 +6,22 @@
  * refined section by section against the exported specs.
  */
 @theme {
-  --font-sans: 'Jost Variable', 'Futura', 'Century Gothic', system-ui, sans-serif;
+  /*
+   * Fonts from the mockup: Sofia Pro (headings, buttons, titles) and
+   * Suisse Int'l (body text). Both are commercial, so free self-hosted
+   * look-alikes follow in each stack: Jost for Sofia Pro, Inter for Suisse.
+   * Add licensed .woff2 files with @font-face to use the originals.
+   */
+  --font-heading: 'Sofia Pro', 'Jost Variable', 'Futura', 'Century Gothic', system-ui, sans-serif;
+  --font-body:
+    'Suisse Intl', "Suisse Int'l", 'Inter Variable', 'Helvetica Neue', Arial, system-ui, sans-serif;
 
   --color-navy: #01005b;
   --color-navy-hover: #1a1980;
   --color-ink: #1c1c1c;
   --color-muted: #5a5a5a;
-  --color-cream: #fbf4ee;
+  /* Main brand background from the mockup. */
+  --color-cream: #f9f0e5;
   --color-sand: #f2e8df;
   --color-mist: #f2f0f1;
   --color-line: #e5e2e0;
@@ -29,9 +38,16 @@
   }
 
   body {
-    @apply bg-white font-sans text-ink antialiased;
+    @apply bg-white font-body text-ink antialiased;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  button {
+    @apply font-heading;
   }
 
   @media (prefers-reduced-motion: reduce) {
