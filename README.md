@@ -101,8 +101,8 @@ labelled icon buttons, visible focus styles and `prefers-reduced-motion` support
 
 ## Git workflow
 
-- `main`: stable, release-ready code
-- `develop`: integration branch
-- `feat/*`, `chore/*`, `docs/*`: short-lived branches merged into `develop` with `--no-ff`
+- `main`: the only long-lived branch
+- Larger features are built in short-lived `feat/*` branches and merged into `main` with `--no-ff`
+- Small fixes are committed directly to `main`
 
 Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/).
