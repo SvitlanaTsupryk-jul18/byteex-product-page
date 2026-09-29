@@ -46,9 +46,9 @@ export const landingPageContent: LandingPage = {
       'Beautiful, comfortable loungewear for day or night. Ethically sourced and responsibly made.',
   },
   announcements: [
-    'Consciously made butter soft staples for every day (or night)',
-    'Free shipping on orders > $200',
-    'Easy 45 day return window',
+    'CONSCIOUSLY MADE BUTTER SOFT STAPLES FOR EVERY DAY (OR NIGHT)',
+    'FREE SHIPPING on orders > $200',
+    'easy 45 day return window.',
   ],
   ratingText: 'Over 500+ 5 Star Reviews Online',
   sections: [
@@ -60,12 +60,12 @@ export const landingPageContent: LandingPage = {
         {
           id: 'hero-feature-1',
           title: 'Beautiful, comfortable loungewear for day or night.',
-          icon: 'sparkle',
+          icon: 'dayNight',
         },
         {
           id: 'hero-feature-2',
           title: 'No wasteful extras, like tags or plastic packaging.',
-          icon: 'package',
+          icon: 'ecoCart',
         },
         {
           id: 'hero-feature-3',
@@ -85,9 +85,11 @@ export const landingPageContent: LandingPage = {
         avatar: image('avatar-amy', 'Amy P.'),
       },
       images: [
-        image('hero-1', 'Woman wearing a light loungewear set'),
-        image('hero-2', 'Woman in a white robe'),
-        image('hero-3', 'Woman reading in bed'),
+        // One composed collage exported from Figma (three photos + backdrop).
+        image(
+          'hero',
+          'Three women relaxing in Byteex loungewear: a cropped set, a white robe and a set worn while reading',
+        ),
       ],
       pressHeading: 'as seen in',
       pressLogos: [
@@ -144,7 +146,7 @@ export const landingPageContent: LandingPage = {
           id: 'step-save',
           title: 'You save.',
           description: 'Browse our comfort sets and save 15% when you bundle.',
-          icon: 'cart',
+          icon: 'ecoCart',
         },
         {
           id: 'step-ship',

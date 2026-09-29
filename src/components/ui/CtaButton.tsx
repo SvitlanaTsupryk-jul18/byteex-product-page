@@ -13,13 +13,13 @@ export function CtaButton({ cta, className }: CtaButtonProps) {
     <a
       href={cta.href}
       className={cn(
-        'inline-flex min-h-12 items-center justify-center gap-3 rounded-sm bg-navy px-8 py-3 font-heading text-sm font-medium tracking-wide text-white transition-colors',
+        'inline-flex min-h-14 items-center justify-center gap-4 rounded bg-navy px-6 font-body text-lg tracking-[0.01em] text-white transition-colors lg:gap-5',
         'hover:bg-navy-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy',
         className,
       )}
     >
       {cta.label}
-      <ArrowRightIcon className="h-3 w-6" />
+      <ArrowRightIcon className="h-2.5 w-[1.375rem] shrink-0" />
     </a>
   )
 }

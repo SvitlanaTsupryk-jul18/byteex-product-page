@@ -7,14 +7,15 @@
  */
 
 export const ICON_NAMES = [
+  'dayNight',
+  'ecoCart',
+  'waves',
   'sparkle',
   'leaf',
   'package',
   'fabric',
   'hanger',
   'heart',
-  'waves',
-  'cart',
   'truck',
   'sun',
   'cloud',

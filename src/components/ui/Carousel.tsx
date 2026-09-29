@@ -11,6 +11,7 @@ interface CarouselProps {
   trackClassName?: string
   className?: string
   showDots?: boolean
+  showArrows?: boolean
 }
 
 /**
@@ -25,11 +26,14 @@ export function Carousel({
   trackClassName,
   className,
   showDots = false,
+  showArrows = true,
 }: CarouselProps) {
   const trackRef = useRef<HTMLUListElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [canPrev, setCanPrev] = useState(false)
   const [canNext, setCanNext] = useState(items.length > 1)
+  // Number of scroll positions, e.g. 5 slides with 3 visible -> 3 positions.
+  const [positionCount, setPositionCount] = useState(items.length)
 
   const slideWidth = () => {
     const firstSlide = trackRef.current?.firstElementChild as HTMLElement | null
@@ -40,10 +44,12 @@ export function Carousel({
     const track = trackRef.current
     if (!track) return
     const { scrollLeft, scrollWidth, clientWidth } = track
-    setActiveIndex(Math.round(scrollLeft / slideWidth()))
+    const width = slideWidth()
+    setActiveIndex(Math.round(scrollLeft / width))
+    setPositionCount(Math.max(1, items.length - Math.round(clientWidth / width) + 1))
     setCanPrev(scrollLeft > 1)
     setCanNext(scrollLeft + clientWidth < scrollWidth - 1)
-  }, [])
+  }, [items.length])
 
   useEffect(() => {
     const track = trackRef.current
@@ -100,30 +106,34 @@ export function Carousel({
         ))}
       </ul>
 
-      <button
-        type="button"
-        onClick={() => scrollByStep(-1)}
-        disabled={!canPrev}
-        aria-label="Previous slide"
-        className={cn(arrowClass, '-left-2 md:-left-12')}
-      >
-        <ChevronIcon direction="left" className="size-6" />
-      </button>
-      <button
-        type="button"
-        onClick={() => scrollByStep(1)}
-        disabled={!canNext}
-        aria-label="Next slide"
-        className={cn(arrowClass, '-right-2 md:-right-12')}
-      >
-        <ChevronIcon direction="right" className="size-6" />
-      </button>
+      {showArrows && (
+        <>
+          <button
+            type="button"
+            onClick={() => scrollByStep(-1)}
+            disabled={!canPrev}
+            aria-label="Previous slide"
+            className={cn(arrowClass, '-left-2 md:-left-12')}
+          >
+            <ChevronIcon direction="left" className="size-6" />
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollByStep(1)}
+            disabled={!canNext}
+            aria-label="Next slide"
+            className={cn(arrowClass, '-right-2 md:-right-12')}
+          >
+            <ChevronIcon direction="right" className="size-6" />
+          </button>
+        </>
+      )}
 
-      {showDots && items.length > 1 && (
+      {showDots && positionCount > 1 && (
         <div className="mt-4 flex justify-center gap-2">
-          {items.map((item, index) => (
+          {Array.from({ length: positionCount }, (_, index) => (
             <button
-              key={item.key}
+              key={index}
               type="button"
               onClick={() => scrollToIndex(index)}
               aria-label={`Go to slide ${index + 1}`}

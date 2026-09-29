@@ -19,7 +19,10 @@
   --color-navy: #01005b;
   --color-navy-hover: #1a1980;
   --color-ink: #1c1c1c;
-  --color-muted: #5a5a5a;
+  --color-ink-soft: #565656;
+  --color-muted: #676869;
+  --color-subtle: #828282;
+  --color-divider: #bab6b0;
   /* Main brand background from the mockup. */
   --color-cream: #f9f0e5;
   --color-sand: #f2e8df;
@@ -28,7 +31,8 @@
   --color-star: #ffb800;
   --color-success: #3aa76d;
 
-  --container-page: 75rem;
+  /* 1256px content + 32px side padding: ~104px side margins on the 1465px desktop frame. */
+  --container-page: 82.5rem;
 }
 
 @layer base {
@@ -45,8 +49,7 @@
 
   h1,
   h2,
-  h3,
-  button {
+  h3 {
     @apply font-heading;
   }
 
@@ -65,5 +68,5 @@
 }
 
 @utility container-page {
-  @apply mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8;
+  @apply mx-auto w-full max-w-page px-6 lg:px-8;
 }
