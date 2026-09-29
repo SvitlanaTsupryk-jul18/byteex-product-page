@@ -1,8 +1,8 @@
-import type { HeroSection as HeroSectionData, Image } from '@/types/content'
-import { Carousel } from '../ui/Carousel'
+import type { HeroSection as HeroSectionData } from '@/types/content'
 import { CtaButton } from '../ui/CtaButton'
 import { Icon } from '../ui/Icon'
 import { ResponsiveImage } from '../ui/ResponsiveImage'
+import { PressBand } from './PressBand'
 import { TestimonialCard } from './TestimonialCard'
 
 /** Width / height of the collage exported from Figma (1450 x 889). */
@@ -73,60 +73,5 @@ export function HeroSection({ section }: { section: HeroSectionData }) {
 
       <PressBand heading={section.pressHeading} logos={section.pressLogos} />
     </section>
-  )
-}
-
-function PressLogo({ logo }: { logo: Image }) {
-  return logo.url ? (
-    <ResponsiveImage
-      image={logo}
-      sizes="180px"
-      className="mx-auto h-8 w-auto object-contain lg:h-12"
-    />
-  ) : (
-    // Text fallback until logo files are uploaded to the CMS.
-    <span className="block text-center font-heading text-xs tracking-widest text-[#bfbcb8] uppercase lg:text-2xl">
-      {logo.alt}
-    </span>
-  )
-}
-
-/**
- * "As seen in" band. Its top slides under the testimonial card, as in the mockup.
- * The background is always rendered; heading and logos appear once logos exist in the CMS.
- */
-function PressBand({ heading, logos }: { heading?: string; logos: Image[] }) {
-  return (
-    <div className="-mt-[4.5rem] bg-linear-to-b from-cream to-white pt-24 pb-12 lg:-mt-[4.75rem] lg:pt-[9.75rem] lg:pb-16">
-      <div className="container-page text-center">
-        {logos.length > 0 && heading && (
-          <p className="font-heading text-base tracking-[0.02em] text-[#868787] lg:text-lg">
-            {heading}
-          </p>
-        )}
-
-        {logos.length > 0 && (
-          <>
-            <ul className="mt-7 hidden items-center justify-between gap-8 lg:flex">
-              {logos.map((logo) => (
-                <li key={logo.id}>
-                  <PressLogo logo={logo} />
-                </li>
-              ))}
-            </ul>
-
-            <Carousel
-              label="Press mentions"
-              className="mt-4 lg:hidden"
-              slideClassName="basis-1/3 px-2 grid place-items-center"
-              trackClassName="items-center"
-              showArrows={false}
-              showDots
-              items={logos.map((logo) => ({ key: logo.id, content: <PressLogo logo={logo} /> }))}
-            />
-          </>
-        )}
-      </div>
-    </div>
   )
 }

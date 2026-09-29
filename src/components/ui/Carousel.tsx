@@ -139,8 +139,8 @@ export function Carousel({
               aria-label={`Go to slide ${index + 1}`}
               aria-current={index === activeIndex}
               className={cn(
-                'size-1.5 rounded-full transition-colors',
-                index === activeIndex ? 'bg-ink' : 'bg-line',
+                'size-[0.4375rem] rounded-full transition-colors',
+                index === activeIndex ? 'bg-black' : 'bg-[#c4c4c4]',
               )}
             />
           ))}
