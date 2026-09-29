@@ -135,9 +135,9 @@ export const landingPageContent: LandingPage = {
         'Cras mattis varius mollis.',
       ],
       images: [
-        image('founder-1', 'Founder portrait in a white robe'),
-        image('founder-2', 'Loungewear detail'),
-        image('founder-3', 'Woman stretching by the window'),
+        image('founder-1', 'Founder in a white robe'),
+        image('founder-2', 'Woman in a cropped loungewear set'),
+        image('founder-3', 'Woman opening the curtains by the window'),
       ],
       cta: PRIMARY_CTA,
     },

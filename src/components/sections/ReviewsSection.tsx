@@ -1,6 +1,6 @@
 import type { ReviewsSection as ReviewsSectionData } from '@/types/content'
 import { Carousel } from '../ui/Carousel'
-import { CtaWithRating } from '../ui/CtaButton'
+import { CtaWithRating } from '../ui/CtaWithRating'
 import { ResponsiveImage } from '../ui/ResponsiveImage'
 import { SectionHeading } from '../ui/SectionHeading'
 import { TestimonialCard } from './TestimonialCard'

@@ -18,6 +18,8 @@
 
   --color-navy: #01005b;
   --color-navy-hover: #1a1980;
+  /* Lighter blue used for some section headings (e.g. "Be your best self."). */
+  --color-indigo: #292d90;
   --color-ink: #1c1c1c;
   --color-ink-soft: #565656;
   --color-muted: #676869;
@@ -26,9 +28,9 @@
   /* Main brand background from the mockup. */
   --color-cream: #f9f0e5;
   --color-sand: #f2e8df;
-  --color-mist: #f2f0f1;
+  --color-mist: #f0eeef;
   --color-line: #e5e2e0;
-  --color-star: #ffb800;
+  --color-star: #f5ba41;
   --color-success: #3aa76d;
 
   /* 1256px content + 32px side padding: ~104px side margins on the 1465px desktop frame. */

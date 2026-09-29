@@ -1,14 +1,16 @@
 import type { Cta } from '@/types/content'
 import { cn } from '@/lib/cn'
 import { ArrowRightIcon } from './Icon'
-import { Rating } from './Rating'
 
 interface CtaButtonProps {
   cta: Cta
+  /** The mockup shows the arrow on most CTAs, but not on all of them. */
+  showArrow?: boolean
   className?: string
 }
 
-export function CtaButton({ cta, className }: CtaButtonProps) {
+/** Primary navy call-to-action link styled as a button. */
+export function CtaButton({ cta, showArrow = true, className }: CtaButtonProps) {
   return (
     <a
       href={cta.href}
@@ -19,26 +21,7 @@ export function CtaButton({ cta, className }: CtaButtonProps) {
       )}
     >
       {cta.label}
-      <ArrowRightIcon className="h-2.5 w-[1.375rem] shrink-0" />
+      {showArrow && <ArrowRightIcon className="h-2.5 w-[1.375rem] shrink-0" />}
     </a>
-  )
-}
-
-interface CtaWithRatingProps extends CtaButtonProps {
-  ratingText?: string
-}
-
-/** Recurring pattern in the design: CTA button with a star rating line below. */
-export function CtaWithRating({ cta, ratingText, className }: CtaWithRatingProps) {
-  return (
-    <div className={cn('flex flex-col items-center gap-2.5', className)}>
-      <CtaButton cta={cta} className="w-full sm:w-auto sm:min-w-64" />
-      {ratingText && (
-        <p className="flex items-center gap-4 text-[0.8125rem] text-subtle">
-          <Rating value={5} className="text-sm" />
-          {ratingText}
-        </p>
-      )}
-    </div>
   )
 }

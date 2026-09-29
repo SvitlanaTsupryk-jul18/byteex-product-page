@@ -1,7 +1,7 @@
 import type { Feature, StepsSection as StepsSectionData } from '@/types/content'
 import { cn } from '@/lib/cn'
 import { Carousel } from '../ui/Carousel'
-import { CtaWithRating } from '../ui/CtaButton'
+import { CtaWithRating } from '../ui/CtaWithRating'
 import { Icon } from '../ui/Icon'
 import { SectionHeading } from '../ui/SectionHeading'
 

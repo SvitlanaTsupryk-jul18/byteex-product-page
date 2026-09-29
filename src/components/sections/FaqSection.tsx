@@ -1,6 +1,6 @@
 import type { FaqSection as FaqSectionData } from '@/types/content'
 import { Accordion } from '../ui/Accordion'
-import { CtaWithRating } from '../ui/CtaButton'
+import { CtaWithRating } from '../ui/CtaWithRating'
 import { ResponsiveImage } from '../ui/ResponsiveImage'
 import { SectionHeading } from '../ui/SectionHeading'
 

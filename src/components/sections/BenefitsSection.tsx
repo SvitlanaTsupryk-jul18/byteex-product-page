@@ -1,5 +1,5 @@
 import type { BenefitsSection as BenefitsSectionData } from '@/types/content'
-import { CtaWithRating } from '../ui/CtaButton'
+import { CtaWithRating } from '../ui/CtaWithRating'
 import { Icon } from '../ui/Icon'
 import { ProductGallery } from '../ui/ProductGallery'
 
