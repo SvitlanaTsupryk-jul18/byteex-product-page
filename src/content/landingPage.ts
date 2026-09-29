@@ -162,7 +162,7 @@ export const landingPageContent: LandingPage = {
           id: 'step-enjoy',
           title: 'You enjoy!',
           description: 'Wear hernest around the house, out on the town, or in bed.',
-          icon: 'sun',
+          icon: 'dayNight',
         },
       ],
       cta: PRIMARY_CTA,

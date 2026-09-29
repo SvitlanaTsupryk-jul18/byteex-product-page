@@ -74,12 +74,20 @@ export function Carousel({
     trackRef.current?.scrollTo({ left: index * slideWidth(), behavior: 'smooth' })
   }
 
+  /** Arrows wrap around: "next" on the last position goes back to the first. */
   const scrollByStep = (direction: -1 | 1) => {
-    trackRef.current?.scrollBy({ left: direction * slideWidth(), behavior: 'smooth' })
+    const track = trackRef.current
+    if (!track) return
+    if (direction === 1 && !canNext) return track.scrollTo({ left: 0, behavior: 'smooth' })
+    if (direction === -1 && !canPrev) {
+      return track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' })
+    }
+    track.scrollBy({ left: direction * slideWidth(), behavior: 'smooth' })
   }
 
   const arrowClass =
-    'absolute top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center text-ink transition-opacity disabled:pointer-events-none disabled:opacity-30'
+    'absolute top-1/2 z-10 grid -translate-y-1/2 place-items-center p-2 text-ink-soft transition-opacity hover:opacity-70'
+  const chevronClass = 'h-[1.0625rem] w-[0.5625rem] lg:h-[1.4375rem] lg:w-[0.6875rem]'
 
   return (
     <section
@@ -87,47 +95,48 @@ export function Carousel({
       aria-label={label}
       className={cn('relative', className)}
     >
-      <ul
-        ref={trackRef}
-        className={cn(
-          'flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto overscroll-x-contain [&::-webkit-scrollbar]:hidden',
-          trackClassName,
-        )}
-      >
-        {items.map((item, index) => (
-          <li
-            key={item.key}
-            aria-roledescription="slide"
-            aria-label={`${index + 1} of ${items.length}`}
-            className={cn('shrink-0 snap-start', slideClassName)}
-          >
-            {item.content}
-          </li>
-        ))}
-      </ul>
+      {/* Arrows are positioned against the slides only, not the dots below. */}
+      <div className="relative">
+        <ul
+          ref={trackRef}
+          className={cn(
+            'flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto overscroll-x-contain [&::-webkit-scrollbar]:hidden',
+            trackClassName,
+          )}
+        >
+          {items.map((item, index) => (
+            <li
+              key={item.key}
+              aria-roledescription="slide"
+              aria-label={`${index + 1} of ${items.length}`}
+              className={cn('shrink-0 snap-start', slideClassName)}
+            >
+              {item.content}
+            </li>
+          ))}
+        </ul>
 
-      {showArrows && (
-        <>
-          <button
-            type="button"
-            onClick={() => scrollByStep(-1)}
-            disabled={!canPrev}
-            aria-label="Previous slide"
-            className={cn(arrowClass, '-left-2 md:-left-12')}
-          >
-            <ChevronIcon direction="left" className="size-6" />
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollByStep(1)}
-            disabled={!canNext}
-            aria-label="Next slide"
-            className={cn(arrowClass, '-right-2 md:-right-12')}
-          >
-            <ChevronIcon direction="right" className="size-6" />
-          </button>
-        </>
-      )}
+        {showArrows && (
+          <>
+            <button
+              type="button"
+              onClick={() => scrollByStep(-1)}
+              aria-label="Previous slide"
+              className={cn(arrowClass, 'right-full mr-4')}
+            >
+              <ChevronIcon direction="left" className={chevronClass} />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollByStep(1)}
+              aria-label="Next slide"
+              className={cn(arrowClass, 'left-full ml-4')}
+            >
+              <ChevronIcon direction="right" className={chevronClass} />
+            </button>
+          </>
+        )}
+      </div>
 
       {showDots && positionCount > 1 && (
         <div className="mt-4 flex justify-center gap-2">

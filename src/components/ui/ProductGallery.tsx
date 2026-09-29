@@ -1,29 +1,11 @@
-import { useState, type SVGProps } from 'react'
+import { useState } from 'react'
 import type { Product } from '@/types/content'
 import { cn } from '@/lib/cn'
+import { ChevronIcon } from './Icon'
 import { ResponsiveImage } from './ResponsiveImage'
 
 /** Portrait ratio of the product photos (866 x 1296). */
 const MAIN_RATIO = 866 / 1296
-
-/** Thin chevron from the mockup (11 x 23 on desktop). */
-function Chevron({
-  direction,
-  ...props
-}: SVGProps<SVGSVGElement> & { direction: 'left' | 'right' }) {
-  return (
-    <svg
-      viewBox="0 0 12 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.3}
-      aria-hidden="true"
-      {...props}
-    >
-      <path d={direction === 'left' ? 'M11 1 1 12l10 11' : 'M1 1l10 11L1 23'} />
-    </svg>
-  )
-}
 
 const arrowClass =
   'absolute top-1/2 grid -translate-y-1/2 place-items-center p-2 text-ink-soft transition-opacity hover:opacity-70'
@@ -76,7 +58,7 @@ export function ProductGallery({ product, className }: { product: Product; class
               aria-label="Previous image"
               className={cn(arrowClass, 'right-full mr-[0.5625rem] lg:mr-3')}
             >
-              <Chevron
+              <ChevronIcon
                 direction="left"
                 className="h-[1.0625rem] w-[0.5625rem] lg:h-[1.4375rem] lg:w-[0.6875rem]"
               />
@@ -87,7 +69,7 @@ export function ProductGallery({ product, className }: { product: Product; class
               aria-label="Next image"
               className={cn(arrowClass, 'left-full ml-[0.5625rem] lg:ml-[1.4375rem]')}
             >
-              <Chevron
+              <ChevronIcon
                 direction="right"
                 className="h-[1.0625rem] w-[0.5625rem] lg:h-[1.4375rem] lg:w-[0.6875rem]"
               />
