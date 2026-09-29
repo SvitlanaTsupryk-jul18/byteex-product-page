@@ -10,10 +10,13 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "tsc -b"
+    "typecheck": "tsc -b",
+    "cms:setup": "tsx scripts/contentful/setup.ts",
+    "cms:seed": "tsx scripts/contentful/seed.ts"
   },
   "dependencies": {
     "@fontsource-variable/jost": "^5.3.0",
+    "contentful": "^11.12.10",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
@@ -23,10 +26,13 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
+    "contentful-management": "^12.19.0",
+    "dotenv": "^18.0.4",
     "oxlint": "^1.81.0",
     "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.15",
     "typescript": "~6.0.2",
     "vite": "^8.3.0"
   }
