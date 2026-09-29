@@ -101,8 +101,7 @@ labelled icon buttons, visible focus styles and `prefers-reduced-motion` support
 
 ## Git workflow
 
-- `main`: the only long-lived branch
-- Larger features are built in short-lived `feat/*` branches and merged into `main` with `--no-ff`
-- Small fixes are committed directly to `main`
+- `main` is the only branch, with a linear history
+- Each commit is a small, self-contained step of the development process
 
 Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/).
