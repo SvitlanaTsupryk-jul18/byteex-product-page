@@ -11,6 +11,8 @@ interface ResponsiveImageProps {
   aspectRatio?: number
   /** Set for above-the-fold images (LCP candidates). */
   priority?: boolean
+  /** Load immediately without raising fetch priority (small above-the-fold images). */
+  eager?: boolean
 }
 
 /**
@@ -24,6 +26,7 @@ export function ResponsiveImage({
   className,
   aspectRatio,
   priority = false,
+  eager = false,
 }: ResponsiveImageProps) {
   if (!image?.url) {
     return (
@@ -53,7 +56,7 @@ export function ResponsiveImage({
       alt={image.alt}
       width={width}
       height={height}
-      loading={priority ? 'eager' : 'lazy'}
+      loading={priority || eager ? 'eager' : 'lazy'}
       decoding={priority ? 'sync' : 'async'}
       fetchPriority={priority ? 'high' : 'auto'}
       className={cn('object-cover', className)}

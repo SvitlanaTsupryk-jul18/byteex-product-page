@@ -64,6 +64,7 @@ export function HeroSection({ section }: { section: HeroSectionData }) {
             <TestimonialCard
               testimonial={section.testimonial}
               inlineOnDesktop
+              eagerAvatar
               className="relative mt-8 lg:mt-12 lg:w-[26rem]"
             />
           )}

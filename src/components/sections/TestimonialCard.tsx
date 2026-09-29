@@ -7,12 +7,15 @@ interface TestimonialCardProps {
   testimonial: Testimonial
   /** Hero variant: name, stars and badge in one row on desktop. */
   inlineOnDesktop?: boolean
+  /** Set when the card is above the fold. */
+  eagerAvatar?: boolean
   className?: string
 }
 
 export function TestimonialCard({
   testimonial,
   inlineOnDesktop = false,
+  eagerAvatar = false,
   className,
 }: TestimonialCardProps) {
   return (
@@ -28,6 +31,7 @@ export function TestimonialCard({
             image={testimonial.avatar}
             aspectRatio={1}
             sizes="40px"
+            eager={eagerAvatar}
             className="size-[2.4375rem] shrink-0 rounded-full"
           />
         ) : (
