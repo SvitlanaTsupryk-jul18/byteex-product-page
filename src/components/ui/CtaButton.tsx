@@ -31,10 +31,10 @@ interface CtaWithRatingProps extends CtaButtonProps {
 /** Recurring pattern in the design: CTA button with a star rating line below. */
 export function CtaWithRating({ cta, ratingText, className }: CtaWithRatingProps) {
   return (
-    <div className={cn('flex flex-col items-center gap-2', className)}>
+    <div className={cn('flex flex-col items-center gap-2.5', className)}>
       <CtaButton cta={cta} className="w-full sm:w-auto sm:min-w-64" />
       {ratingText && (
-        <p className="flex items-center gap-2 text-xs text-muted">
+        <p className="flex items-center gap-4 text-[0.8125rem] text-subtle">
           <Rating value={5} className="text-sm" />
           {ratingText}
         </p>

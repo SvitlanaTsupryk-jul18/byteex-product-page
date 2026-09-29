@@ -105,15 +105,19 @@ export const landingPageContent: LandingPage = {
       id: 'section-benefits',
       heading: 'Loungewear you can be proud of.',
       features: [
-        benefit('benefit-1', 'Ethically sourced.', 'leaf'),
-        benefit('benefit-2', 'Responsibly made.', 'hanger'),
-        benefit('benefit-3', 'Made for living in.', 'sparkle'),
+        benefit('benefit-1', 'Ethically sourced.', 'ecoCart'),
+        benefit('benefit-2', 'Responsibly made.', 'leaf'),
+        benefit('benefit-3', 'Made for living in.', 'dayNight'),
         benefit('benefit-4', 'Unimaginably comfortable.', 'waves'),
       ],
       product: {
         id: 'product-white-robe',
         name: 'White Robe',
-        images: images('product-robe', 8, 'White robe, photo'),
+        images: [
+          image('product-robe-1', 'Woman in the white robe'),
+          image('product-robe-2', 'Woman in a cropped loungewear set'),
+          ...[3, 4, 5, 6, 7, 8].map((n) => image(`product-robe-${n}`, `White robe, photo ${n}`)),
+        ],
       },
       cta: PRIMARY_CTA,
     },

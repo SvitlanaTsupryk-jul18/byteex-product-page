@@ -40,7 +40,7 @@ export function PressBand({ heading, logos }: PressBandProps) {
   const hasLogos = logos.length > 0
 
   return (
-    <div className="-mt-[4.5rem] bg-linear-to-b from-cream to-white pt-[5.5rem] pb-12 lg:-mt-[4.75rem] lg:pt-[5.25rem] lg:pb-16">
+    <div className="-mt-[4.5rem] bg-linear-to-b from-cream to-white pt-[5.5rem] pb-10 lg:-mt-[4.75rem] lg:pt-[5.25rem] lg:pb-16">
       {hasLogos && (
         <div className="container-page text-center">
           {heading && (

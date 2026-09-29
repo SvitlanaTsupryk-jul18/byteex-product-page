@@ -33,6 +33,9 @@
 
   /* 1256px content + 32px side padding: ~104px side margins on the 1465px desktop frame. */
   --container-page: 82.5rem;
+
+  /* Wide enough for elements that hang outside the container (e.g. gallery arrows). */
+  --breakpoint-wide: 87.5rem;
 }
 
 @layer base {
