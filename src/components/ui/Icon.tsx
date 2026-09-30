@@ -13,12 +13,6 @@ const stroke = {
   strokeLinejoin: 'round',
 } as const
 
-/** Placeholder line icon on a 24px grid, used until the Figma export arrives. */
-const placeholder = (d: string): IconDefinition => ({
-  viewBox: '0 0 24 24',
-  body: <path d={d} strokeWidth={1.5} {...stroke} />,
-})
-
 /**
  * Icons referenced from the CMS by name.
  * Inline SVG: no extra requests, colour comes from `currentColor`.
@@ -61,9 +55,6 @@ const ICONS: Record<IconName, IconDefinition> = {
       />
     ),
   },
-  sparkle: placeholder(
-    'M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6',
-  ),
   // Figma: benefits "Responsibly made."
   leaf: {
     viewBox: '0 0 23 23',
@@ -74,10 +65,6 @@ const ICONS: Record<IconName, IconDefinition> = {
       />
     ),
   },
-  package: placeholder('M4 8l8-4 8 4v8l-8 4-8-4V8Zm0 0 8 4 8-4M12 12v8'),
-  fabric: placeholder('M4 7c3-2 5 2 8 0s5 2 8 0M4 12c3-2 5 2 8 0s5 2 8 0M4 17c3-2 5 2 8 0s5 2 8 0'),
-  hanger: placeholder('M12 7a2 2 0 1 1 2-2M12 7v2L3 16h18l-9-7'),
-  heart: placeholder('M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10Z'),
   // Figma: steps "We ship." (69 x 49, speed lines + van)
   truck: {
     viewBox: '0 0 69 49',
@@ -93,9 +80,6 @@ const ICONS: Record<IconName, IconDefinition> = {
       </>
     ),
   },
-  sun: placeholder(
-    'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5',
-  ),
   // Figma: impact "CO2" (glyph from a 42 x 42 badge; the circle is drawn in CSS)
   cloud: {
     viewBox: '0 0 42 42',
