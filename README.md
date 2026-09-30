@@ -35,7 +35,7 @@ npm run cms:seed -- --replace-images=ugc  # only images whose id starts with "ug
 Both scripts are idempotent and can be re-run safely.
 
 **Images for seeding:** put files into `scripts/contentful/images/`, named after
-the image `id` in `src/content/landingPage.ts` (e.g. `hero-1.jpg`, `ugc-12.webp`).
+the image `id` in `src/content/landingPage.ts` (e.g. `hero.png`, `ugc-12.jpg`).
 Missing files are skipped, and images can also be uploaded later in the Contentful UI.
 
 ### Content model
@@ -63,6 +63,7 @@ Editors can reorder, add or remove sections in Contentful without code changes.
 | `npm run lint`      | Lint with oxlint                      |
 | `npm run typecheck` | Type-check only                       |
 | `npm run format`    | Format with Prettier                  |
+| `npm test`          | Run unit tests (Vitest)               |
 | `npm run cms:setup` | Apply the content model to Contentful |
 | `npm run cms:seed`  | Seed Contentful with initial content  |
 
@@ -77,7 +78,7 @@ src/
   content/            Seed / fallback content
   hooks/              useLandingPage (loading, error, retry)
   lib/
-    contentful/       Delivery client, typed skeletons, mappers
+    contentful/       Fetch client, link resolution, typed skeletons, mappers
     content.ts        Content source switch (Contentful or local) + request cache
     image.ts          Contentful Images API helpers
   types/content.ts    Domain types used by all components
@@ -88,13 +89,30 @@ Components depend only on domain types. Contentful responses are mapped in
 
 ## Performance
 
-- Whole page is fetched in **one** Delivery API request (`include: 4`).
+- Whole page is fetched in **one** Delivery API request (`include: 4`) by a small
+  `fetch` client instead of the Contentful SDK (JS bundle 87 kB gzip instead of 132 kB).
+  The token is sent as a query parameter, so there is no CORS preflight.
 - Images use the Contentful Images API: WebP, responsive `srcset`/`sizes`,
   explicit `width`/`height` against layout shift, lazy loading below the fold,
   `fetchpriority="high"` for the hero image.
-- `preconnect` to Contentful hosts, self-hosted variable font (no Google Fonts request).
+- `preconnect` to Contentful hosts, self-hosted variable fonts (no Google Fonts request).
+- Logo and icons are inline SVG, so they need no extra requests.
 - Carousel is native CSS scroll-snap, with no slider library.
 - Fallback content is code-split and never loaded when Contentful is configured.
+
+## Testing
+
+`npm test` runs unit tests for Contentful link resolution, the entry mappers
+and the image URL helpers. GitHub Actions (`.github/workflows/ci.yml`) runs
+format check, lint, type check, tests and build on every push.
+
+## Known gaps
+
+- **Fonts:** the mockup uses Sofia Pro and Suisse Int'l, which are commercial.
+  Jost and Inter are used as free look-alikes, so some line breaks differ slightly.
+- **Placeholders:** payment method badges and the water drop icon are drawn in code
+  until the original assets are exported from Figma.
+- **1x photos:** some photos were exported at 1x and look soft on retina screens.
 
 ## Accessibility
 
