@@ -2,23 +2,35 @@ import type { FaqSection as FaqSectionData } from '@/types/content'
 import { Accordion } from '../ui/Accordion'
 import { CtaWithRating } from '../ui/CtaWithRating'
 import { ResponsiveImage } from '../ui/ResponsiveImage'
-import { SectionHeading } from '../ui/SectionHeading'
 
 interface Props {
   section: FaqSectionData
   ratingText: string
 }
 
+/** Width / height of the collage exported from Figma (882 x 1304). */
+const COLLAGE_RATIO = 882 / 1304
+
+/**
+ * "Frequently asked questions."
+ * Mobile: lowercase centred heading, accordion, CTA with rating.
+ * Desktop (lg): heading and accordion on the left, photo collage on the right, no CTA.
+ */
 export function FaqSection({ section, ratingText }: Props) {
-  const [topRight, center, bottomLeft] = section.images
+  const titleId = `${section.id}-title`
+  const [collage] = section.images
 
   return (
-    <section aria-labelledby={`${section.id}-title`} className="py-12 md:py-20">
-      <div className="container-page grid gap-10 md:grid-cols-[1.2fr_1fr] md:items-center">
-        <div className="flex flex-col gap-6">
-          <SectionHeading className="text-center md:text-left">
-            <span id={`${section.id}-title`}>{section.heading}</span>
-          </SectionHeading>
+    <section aria-labelledby={titleId} className="pt-10 pb-12 lg:pt-9 lg:pb-[2.125rem]">
+      <div className="container-page lg:grid lg:grid-cols-[minmax(0,1fr)_27.5625rem] lg:grid-rows-[auto_1fr] lg:gap-x-10">
+        <h2
+          id={titleId}
+          className="mx-auto max-w-[14.5rem] text-center text-[1.8125rem] leading-[1.9375rem] tracking-[0.02em] text-navy max-lg:lowercase lg:mx-0 lg:max-w-none lg:pl-[6.6875rem] lg:text-left lg:text-[2.1875rem] lg:leading-[2.75rem]"
+        >
+          {section.heading}
+        </h2>
+
+        <div className="mx-auto mt-[2.125rem] max-w-[21.75rem] lg:col-start-1 lg:row-start-2 lg:mx-0 lg:mt-12 lg:max-w-[46rem] lg:pl-[6.6875rem]">
           <Accordion
             items={section.items.map((item) => ({
               id: item.id,
@@ -28,39 +40,21 @@ export function FaqSection({ section, ratingText }: Props) {
           />
         </div>
 
-        {/* Decorative collage, desktop only as in the design. */}
-        <div
-          className="relative mx-auto hidden aspect-[0.8] w-full max-w-sm md:block"
-          aria-hidden="true"
-        >
-          <ResponsiveImage
-            image={topRight}
-            aspectRatio={0.66}
-            sizes="160px"
-            className="absolute top-0 right-0 w-2/5"
-          />
-          <ResponsiveImage
-            image={center}
-            aspectRatio={0.63}
-            sizes="220px"
-            className="absolute top-1/5 left-1/5 w-1/2"
-          />
-          <ResponsiveImage
-            image={bottomLeft}
-            aspectRatio={1.05}
-            sizes="170px"
-            className="absolute bottom-0 left-0 w-2/5"
-          />
-        </div>
-      </div>
+        {collage && (
+          <div className="hidden lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:-mt-1 lg:block">
+            <ResponsiveImage
+              image={collage}
+              aspectRatio={COLLAGE_RATIO}
+              sizes="441px"
+              className="h-auto w-full"
+            />
+          </div>
+        )}
 
-      {section.cta && (
-        <CtaWithRating
-          cta={section.cta}
-          ratingText={ratingText}
-          className="container-page mt-10 md:hidden"
-        />
-      )}
+        {section.cta && (
+          <CtaWithRating cta={section.cta} ratingText={ratingText} className="mt-10 lg:hidden" />
+        )}
+      </div>
     </section>
   )
 }

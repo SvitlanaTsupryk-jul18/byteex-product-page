@@ -223,10 +223,12 @@ export const landingPageContent: LandingPage = {
             ? 'Our fabrics and garments are made in Portugal. We build strong relationships with our immediate suppliers and visit as often as possible.'
             : LOREM_SHORT,
       })),
+      // One composed collage exported from Figma (three photos + backdrop).
       images: [
-        image('faq-1', 'Woman stretching in a green set'),
-        image('faq-2', 'Woman in a cropped loungewear set'),
-        image('faq-3', 'Woman reading in bed'),
+        image(
+          'faq',
+          'Women in Byteex loungewear: stretching in a green set, posing in a cropped set and reading on a sofa',
+        ),
       ],
       cta: PRIMARY_CTA,
     },

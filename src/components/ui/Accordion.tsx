@@ -14,9 +14,25 @@ interface AccordionProps {
   className?: string
 }
 
+/** Plus that turns into a minus when the item is open (16px, as in the mockup). */
+function ToggleIcon({ open }: { open: boolean }) {
+  return (
+    <span aria-hidden="true" className="relative mt-1.5 size-4 shrink-0">
+      <span className="absolute top-1/2 left-0 h-[1.5px] w-full -translate-y-1/2 bg-current" />
+      <span
+        className={cn(
+          'absolute top-0 left-1/2 h-full w-[1.5px] -translate-x-1/2 bg-current transition-transform duration-300',
+          open && 'scale-y-0',
+        )}
+      />
+    </span>
+  )
+}
+
 /**
  * Single-open accordion following the WAI-ARIA accordion pattern.
- * Height animates with the grid-template-rows 0fr -> 1fr technique.
+ * Closed rows are 72px high; an open row keeps the answer close to its
+ * question. Height animates with the grid-template-rows 0fr -> 1fr technique.
  */
 export function Accordion({ items, defaultOpenIndex = 0, className }: AccordionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(defaultOpenIndex)
@@ -38,17 +54,14 @@ export function Accordion({ items, defaultOpenIndex = 0, className }: AccordionP
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setOpenIndex(isOpen ? null : index)}
-                className="flex w-full items-center justify-between gap-4 py-4 text-left text-sm text-navy"
+                className={cn(
+                  'flex w-full items-start justify-between gap-6 pt-5 text-left text-[1.1875rem] leading-7 tracking-[0.03em] text-navy transition-[padding] duration-300',
+                  isOpen ? 'pb-1' : 'pb-6',
+                )}
               >
                 {item.title}
-                <span aria-hidden="true" className="relative size-3.5 shrink-0">
-                  <span className="absolute top-1/2 left-0 h-px w-full bg-current" />
-                  <span
-                    className={cn(
-                      'absolute top-0 left-1/2 h-full w-px bg-current transition-transform',
-                      isOpen && 'scale-y-0',
-                    )}
-                  />
+                <span className="mr-2 flex lg:mr-[2.4375rem]">
+                  <ToggleIcon open={isOpen} />
                 </span>
               </button>
             </h3>
@@ -62,7 +75,9 @@ export function Accordion({ items, defaultOpenIndex = 0, className }: AccordionP
               )}
             >
               <div className="overflow-hidden" inert={!isOpen}>
-                <p className="pb-4 text-xs leading-relaxed text-muted">{item.content}</p>
+                <p className="pr-5 pb-4 font-heading text-sm leading-5 tracking-[0.03em] text-muted lg:pr-[4.75rem] lg:pb-6 lg:text-[0.9375rem] lg:leading-[1.375rem]">
+                  {item.content}
+                </p>
               </div>
             </div>
           </div>
