@@ -1,11 +1,8 @@
 import type { LandingPage } from '@/types/content'
 import { ContentfulError, getEntries } from './client'
-import { CONTENT_TYPE } from './contentTypes'
 import { mapLandingPage } from './mappers'
 import type { LandingPageSkeleton, ResolvedEntry } from './skeletons'
-
-/** Link depth of the deepest path: page -> section -> testimonial -> avatar asset. */
-const INCLUDE_DEPTH = 4
+import { landingPageQuery } from './url'
 
 export class ContentNotFoundError extends Error {
   constructor(message: string) {
@@ -26,12 +23,7 @@ function isMissingContentModel(error: unknown): boolean {
 export async function fetchLandingPage(slug: string): Promise<LandingPage> {
   let entries: ResolvedEntry<LandingPageSkeleton>[]
   try {
-    entries = await getEntries<ResolvedEntry<LandingPageSkeleton>>({
-      content_type: CONTENT_TYPE.landingPage,
-      'fields.slug': slug,
-      include: INCLUDE_DEPTH,
-      limit: 1,
-    })
+    entries = await getEntries<ResolvedEntry<LandingPageSkeleton>>(landingPageQuery(slug))
   } catch (error) {
     if (isMissingContentModel(error)) {
       throw new ContentNotFoundError(

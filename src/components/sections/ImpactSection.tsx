@@ -22,9 +22,9 @@ export function ImpactSection({ section }: { section: ImpactSectionData }) {
           {section.heading}
         </h2>
 
-        <dl className="mx-auto mt-[2.6875rem] flex max-w-[17.75rem] flex-col lg:mt-[1.0625rem] lg:max-w-none lg:flex-row lg:justify-center">
+        <ul className="mx-auto mt-[2.6875rem] flex max-w-[17.75rem] flex-col lg:mt-[1.0625rem] lg:max-w-none lg:flex-row lg:justify-center">
           {section.stats.map((stat) => (
-            <div
+            <li
               key={stat.id}
               className="flex flex-col items-center border-b border-line pt-6 pb-6 text-center first:pt-0 last:border-b-0 lg:border-b-0 lg:border-l lg:px-[3.125rem] lg:pt-[0.5625rem] lg:pb-[0.8125rem] lg:first:border-l-0 lg:first:pt-[0.5625rem]"
             >
@@ -33,18 +33,17 @@ export function ImpactSection({ section }: { section: ImpactSectionData }) {
                   <Icon name={stat.icon} className="size-full" />
                 </span>
               )}
-              {/* dt must precede dd in markup; CSS order puts the value above its label. */}
-              {stat.description && (
-                <dt className="order-2 font-heading text-[0.9375rem] leading-5 tracking-[0.02em]">
-                  {stat.description}
-                </dt>
-              )}
-              <dd className="order-1 mt-2.5 font-heading text-[1.1875rem] leading-7 font-semibold tracking-[0.02em]">
+              <p className="mt-2.5 font-heading text-[1.1875rem] leading-7 font-semibold tracking-[0.02em]">
                 {stat.title}
-              </dd>
-            </div>
+              </p>
+              {stat.description && (
+                <p className="font-heading text-[0.9375rem] leading-5 tracking-[0.02em]">
+                  {stat.description}
+                </p>
+              )}
+            </li>
           ))}
-        </dl>
+        </ul>
       </div>
     </section>
   )

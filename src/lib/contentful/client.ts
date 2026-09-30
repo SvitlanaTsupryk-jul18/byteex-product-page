@@ -1,4 +1,5 @@
 import { resolveLinks, type EntriesResponse } from './resolveLinks'
+import { entriesUrl } from './url'
 
 const spaceId = import.meta.env.VITE_CONTENTFUL_SPACE_ID
 const accessToken = import.meta.env.VITE_CONTENTFUL_ACCESS_TOKEN
@@ -24,25 +25,14 @@ export class ContentfulError extends Error {
 /**
  * Minimal Content Delivery API client: one GET request plus link resolution.
  * Replaces the official SDK (~115 KB with its dependencies) because the page
- * only needs a single query.
- *
- * The token goes in the query string instead of an Authorization header, so
- * the browser sends a simple CORS request without a preflight round trip.
- * The delivery token is read-only and public by design.
+ * only needs a single query. The delivery token is read-only and public by design.
  */
 export async function getEntries<T>(query: Record<string, string | number>): Promise<T[]> {
   if (!spaceId || !accessToken) {
     throw new Error('Contentful is not configured. Set VITE_CONTENTFUL_* variables in .env.')
   }
 
-  const url = new URL(
-    `https://cdn.contentful.com/spaces/${spaceId}/environments/${environment}/entries`,
-  )
-  for (const [key, value] of Object.entries({ ...query, access_token: accessToken })) {
-    url.searchParams.set(key, String(value))
-  }
-
-  const response = await fetch(url)
+  const response = await fetch(entriesUrl({ spaceId, accessToken, environment }, query))
   const body = await response.json()
   if (!response.ok) {
     throw new ContentfulError(

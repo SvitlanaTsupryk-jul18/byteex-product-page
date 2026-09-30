@@ -146,19 +146,24 @@ export function Carousel({
       </div>
 
       {showDots && positionCount > 1 && (
-        <div className={cn('mt-4 flex justify-center gap-2', dotsClassName)}>
+        <div className={cn('mt-4 flex justify-center', dotsClassName)}>
           {Array.from({ length: positionCount }, (_, index) => (
+            // 24px hit area (WCAG target size) around a 7px dot.
             <button
               key={index}
               type="button"
               onClick={() => scrollToIndex(index)}
               aria-label={`Go to slide ${index + 1}`}
               aria-current={index === activeIndex}
-              className={cn(
-                'size-[0.4375rem] rounded-full transition-colors',
-                index === activeIndex ? 'bg-black' : 'bg-[#c4c4c4]',
-              )}
-            />
+              className="-my-2 grid size-6 place-items-center"
+            >
+              <span
+                className={cn(
+                  'size-[0.4375rem] rounded-full transition-colors',
+                  index === activeIndex ? 'bg-black' : 'bg-[#c4c4c4]',
+                )}
+              />
+            </button>
           ))}
         </div>
       )}
