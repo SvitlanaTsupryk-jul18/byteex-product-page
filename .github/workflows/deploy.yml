@@ -31,9 +31,17 @@ jobs:
       - run: npm run build
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
-          VITE_CONTENTFUL_SPACE_ID: ${{ vars.VITE_CONTENTFUL_SPACE_ID }}
+          # Accepted from either Variables or Secrets, whichever tab they were added to.
+          VITE_CONTENTFUL_SPACE_ID: ${{ vars.VITE_CONTENTFUL_SPACE_ID || secrets.VITE_CONTENTFUL_SPACE_ID }}
           VITE_CONTENTFUL_ENVIRONMENT: ${{ vars.VITE_CONTENTFUL_ENVIRONMENT || 'master' }}
-          VITE_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.VITE_CONTENTFUL_ACCESS_TOKEN }}
+          VITE_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.VITE_CONTENTFUL_ACCESS_TOKEN || vars.VITE_CONTENTFUL_ACCESS_TOKEN }}
+      # Without Contentful the page would ship with empty image placeholders; fail loudly instead.
+      - name: Check that the content snapshot was embedded
+        run: |
+          if ! grep -q 'id="contentful-snapshot"' dist/index.html; then
+            echo "::error::No Contentful content in the build. Add the VITE_CONTENTFUL_SPACE_ID variable and the VITE_CONTENTFUL_ACCESS_TOKEN secret in Settings > Secrets and variables > Actions."
+            exit 1
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
