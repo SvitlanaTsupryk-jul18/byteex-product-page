@@ -16,6 +16,8 @@ export function CtaButton({ cta, showArrow = true, className }: CtaButtonProps) 
       href={cta.href}
       className={cn(
         'inline-flex min-h-14 items-center justify-center gap-4 rounded bg-navy px-6 font-body text-lg tracking-[0.01em] text-white transition-colors lg:gap-5',
+        // Keeps the longest label on one line on 320px phones.
+        'max-[359px]:gap-3 max-[359px]:px-4 max-[359px]:text-base',
         'hover:bg-navy-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy',
         className,
       )}
