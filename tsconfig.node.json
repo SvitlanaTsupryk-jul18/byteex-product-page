@@ -20,5 +20,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["vite.config.ts", "scripts", "src/lib/contentful/url.ts", "src/lib/contentful/contentTypes.ts", "src/types/content.ts"]
+  "include": ["vite.config.ts", "scripts", "src/lib/contentful/url.ts", "src/lib/contentful/contentTypes.ts", "src/lib/contentful/resolveLinks.ts", "src/types/content.ts"]
 }

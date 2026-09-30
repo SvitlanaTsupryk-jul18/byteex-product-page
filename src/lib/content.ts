@@ -6,6 +6,10 @@
 import type { LandingPage } from '@/types/content'
 import { fetchLandingPage } from './contentful/api'
 import { isContentfulConfigured } from './contentful/client'
+import { mapLandingPage } from './contentful/mappers'
+import { resolveLinks, type EntriesResponse } from './contentful/resolveLinks'
+import type { LandingPageSkeleton, ResolvedEntry } from './contentful/skeletons'
+import { SNAPSHOT_ELEMENT_ID } from './contentful/url'
 
 export type ContentSource = 'contentful' | 'local'
 
@@ -14,6 +18,22 @@ export const contentSource: ContentSource = isContentfulConfigured ? 'contentful
 // Cache in-flight and resolved requests, so React StrictMode double effects
 // and repeated mounts never trigger duplicate network calls.
 const cache = new Map<string, Promise<LandingPage>>()
+
+/**
+ * Page content embedded into index.html at build time (see scripts/vite/contentful-html.ts).
+ * Lets the first render skip the network; fresh content is fetched right after.
+ */
+export function getSnapshotPage(): LandingPage | undefined {
+  if (contentSource !== 'contentful') return undefined
+  const json = document.getElementById(SNAPSHOT_ELEMENT_ID)?.textContent
+  if (!json) return undefined
+  try {
+    const [entry] = resolveLinks(JSON.parse(json) as EntriesResponse)
+    return entry ? mapLandingPage(entry as ResolvedEntry<LandingPageSkeleton>) : undefined
+  } catch {
+    return undefined
+  }
+}
 
 export function getLandingPage(slug: string): Promise<LandingPage> {
   let request = cache.get(slug)

@@ -34,3 +34,6 @@ export function entriesUrl(
   }
   return url.toString()
 }
+
+/** Id of the <script type="application/json"> holding the build-time content snapshot. */
+export const SNAPSHOT_ELEMENT_ID = 'contentful-snapshot'

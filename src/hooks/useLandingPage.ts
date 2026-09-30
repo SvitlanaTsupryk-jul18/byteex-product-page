@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { getLandingPage } from '@/lib/content'
+import { getLandingPage, getSnapshotPage } from '@/lib/content'
 import type { LandingPage } from '@/types/content'
 
 export type LandingPageState =
@@ -7,8 +7,15 @@ export type LandingPageState =
   | { status: 'error'; error: Error; retry: () => void }
   | { status: 'success'; page: LandingPage }
 
+/**
+ * Loads the landing page. With a build-time snapshot the page renders immediately
+ * and is refreshed from Contentful in the background (stale-while-revalidate).
+ */
 export function useLandingPage(slug: string): LandingPageState {
-  const [state, setState] = useState<LandingPageState>({ status: 'loading' })
+  const [state, setState] = useState<LandingPageState>(() => {
+    const snapshot = getSnapshotPage()
+    return snapshot ? { status: 'success', page: snapshot } : { status: 'loading' }
+  })
   const [attempt, setAttempt] = useState(0)
 
   const retry = useCallback(() => {
@@ -26,7 +33,10 @@ export function useLandingPage(slug: string): LandingPageState {
       .catch((error: unknown) => {
         if (!active) return
         const normalized = error instanceof Error ? error : new Error(String(error))
-        setState({ status: 'error', error: normalized, retry })
+        // Keep showing the snapshot if the background refresh fails.
+        setState((current) =>
+          current.status === 'success' ? current : { status: 'error', error: normalized, retry },
+        )
       })
 
     return () => {

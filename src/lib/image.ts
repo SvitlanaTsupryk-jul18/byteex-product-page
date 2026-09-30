@@ -41,3 +41,22 @@ export function imageSrcSet(url: string, sourceWidth?: number, aspectRatio?: num
     })
     .join(', ')
 }
+
+/** Largest width used for the plain `src` fallback. */
+const MAX_SRC_WIDTH = 1080
+
+/**
+ * `src` and `srcset` for an image. Shared by <ResponsiveImage> and the build-time
+ * preload tag, which must produce identical URLs for the preload to be reused.
+ */
+export function responsiveImageAttrs(url: string, sourceWidth?: number, aspectRatio?: number) {
+  const width = Math.min(sourceWidth ?? 800, MAX_SRC_WIDTH)
+  return {
+    src: imageUrl(url, {
+      width,
+      height: aspectRatio ? width / aspectRatio : undefined,
+      fit: aspectRatio ? 'fill' : undefined,
+    }),
+    srcSet: imageSrcSet(url, sourceWidth, aspectRatio),
+  }
+}

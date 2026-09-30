@@ -1,5 +1,5 @@
 import type { Image } from '@/types/content'
-import { imageSrcSet, imageUrl } from '@/lib/image'
+import { responsiveImageAttrs } from '@/lib/image'
 import { cn } from '@/lib/cn'
 
 interface ResponsiveImageProps {
@@ -46,12 +46,7 @@ export function ResponsiveImage({
 
   return (
     <img
-      src={imageUrl(image.url, {
-        width: Math.min(width, 1080),
-        height: aspectRatio ? Math.min(width, 1080) / aspectRatio : undefined,
-        fit: aspectRatio ? 'fill' : undefined,
-      })}
-      srcSet={imageSrcSet(image.url, image.width, aspectRatio)}
+      {...responsiveImageAttrs(image.url, image.width, aspectRatio)}
       sizes={sizes}
       alt={image.alt}
       width={width}

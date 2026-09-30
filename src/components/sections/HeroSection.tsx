@@ -1,12 +1,10 @@
 import type { HeroSection as HeroSectionData } from '@/types/content'
 import { CtaButton } from '../ui/CtaButton'
+import { HERO_COLLAGE } from '@/lib/heroCollage'
 import { Icon } from '../ui/Icon'
 import { ResponsiveImage } from '../ui/ResponsiveImage'
 import { PressBand } from './PressBand'
 import { TestimonialCard } from './TestimonialCard'
-
-/** Width / height of the collage exported from Figma (1450 x 889). */
-const COLLAGE_RATIO = 1450 / 889
 
 /**
  * Mockup frames: 428px (mobile) and 1465px (desktop).
@@ -34,8 +32,8 @@ export function HeroSection({ section }: { section: HeroSectionData }) {
         <div className="mx-auto mt-3 w-full max-w-[34rem] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:mt-2 lg:max-w-none xl:w-[46rem]">
           <ResponsiveImage
             image={collage}
-            aspectRatio={COLLAGE_RATIO}
-            sizes="(min-width: 1280px) 736px, (min-width: 1024px) 45vw, (min-width: 576px) 544px, 100vw"
+            aspectRatio={HERO_COLLAGE.ratio}
+            sizes={HERO_COLLAGE.sizes}
             priority
             className="h-auto w-full"
           />
