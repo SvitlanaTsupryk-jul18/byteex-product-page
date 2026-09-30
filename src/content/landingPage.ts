@@ -19,8 +19,31 @@ const LOREM_REVIEW =
 
 const image = (id: string, alt: string): Image => ({ id, url: '', alt })
 
-const images = (prefix: string, count: number, alt: string): Image[] =>
-  Array.from({ length: count }, (_, i) => image(`${prefix}-${i + 1}`, `${alt} ${i + 1}`))
+/** Customer photos in grid order: 11 in the top row, then 11 in the bottom row. */
+const UGC: Image[] = [
+  'Woman with curly hair in a black tee',
+  'Woman in a grey sweater by a van',
+  'Woman in a grey pyjama set',
+  'Woman with headphones in a grey top',
+  'Woman stretching in a bedroom',
+  'Woman in a colour-block sweater',
+  'Woman in a yellow floral pyjama set',
+  'Smiling woman in a satin top',
+  'Woman in yoga pose on a road',
+  'Woman reading in bed in an olive tee',
+  'Woman reading on a green sofa',
+  'Woman by a bookshelf in black shorts',
+  'Woman laughing on a sofa',
+  'Woman in a cream slip dress',
+  'Two women sitting together',
+  'Woman stretching in an olive set',
+  'Couple holding a cushion',
+  'Woman leaning on a desk',
+  'Woman in a kitchen',
+  'Woman in an olive sweatshirt',
+  'Woman pouring juice',
+  'Two women on a sofa',
+].map((alt, i) => image(`ugc-${i + 1}`, alt))
 
 const PRIMARY_CTA: Cta = { label: 'Customize Your Outfit', href: '#shop' }
 
@@ -173,7 +196,9 @@ export const landingPageContent: LandingPage = {
       heading: 'What are our fans saying?',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lobortis sapien facilisis tincidunt pellentesque. In eget ipsum et felis finibus consequat. Fusce non nibh luctus.',
-      gallery: images('ugc', 22, 'Customer photo'),
+      gallery: UGC,
+      // Mobile selection from the mockup. Its 4th photo was not exported, ugc-13 stands in.
+      galleryMobile: [7, 17, 11, 13, 4, 14, 8, 6].map((n) => UGC[n - 1]!),
       testimonials: [
         reviewer('review-1', LOREM_REVIEW),
         reviewer(

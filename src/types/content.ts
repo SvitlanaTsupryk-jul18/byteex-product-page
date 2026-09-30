@@ -108,6 +108,8 @@ export interface ReviewsSection extends SectionBase {
   type: 'reviews'
   description?: string
   gallery: Image[]
+  /** Smaller selection shown on phones (4 x 2 grid). Falls back to the first 8 photos. */
+  galleryMobile: Image[]
   testimonials: Testimonial[]
   cta?: Cta
 }

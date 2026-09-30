@@ -177,6 +177,7 @@ const reviewsSection: ContentTypeDefinition = {
     heading,
     text('description', 'Description'),
     assetList('gallery', 'User generated photos'),
+    assetList('galleryMobile', 'User generated photos (mobile)'),
     entryList('testimonials', 'Testimonials', [CONTENT_TYPE.testimonial]),
     ...ctaFields(),
   ],

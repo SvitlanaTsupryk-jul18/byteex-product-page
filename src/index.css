@@ -31,6 +31,8 @@
   --color-mist: #f0eeef;
   --color-line: #e5e2e0;
   --color-star: #f5ba41;
+  /* Placeholder circle for reviewers without a photo. */
+  --color-avatar: #1f2f55;
   --color-success: #3aa76d;
 
   /* 1256px content + 32px side padding: ~104px side margins on the 1465px desktop frame. */

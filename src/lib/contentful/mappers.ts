@@ -161,6 +161,7 @@ export function mapSection(entry: ResolvedEntry<SectionSkeleton>): Section | und
       heading: fields.heading,
       description: fields.description,
       gallery: mapImages(fields.gallery),
+      galleryMobile: mapImages(fields.galleryMobile),
       testimonials: (fields.testimonials ?? []).filter(isDefined).map(mapTestimonial),
       cta: mapCta(fields),
     }

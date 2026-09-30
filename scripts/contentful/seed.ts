@@ -4,9 +4,10 @@
  * so running it again updates existing entries instead of duplicating them.
  *
  * Images: put files into scripts/contentful/images/ named after the image id
- * (e.g. hero-1.jpg). Missing files are skipped; existing assets are reused.
+ * (e.g. hero-1.jpg). Missing files are skipped; existing assets are reused
+ * unless --replace-images is passed.
  *
- * Usage: npm run cms:seed
+ * Usage: npm run cms:seed [-- --replace-images[=prefix,prefix]]
  */
 import { createReadStream, existsSync } from 'node:fs'
 import { extname, join } from 'node:path'
@@ -72,35 +73,48 @@ async function getAsset(assetId: string): Promise<AssetProps | undefined> {
   }
 }
 
+/**
+ * `--replace-images` re-uploads every image that has a local file;
+ * `--replace-images=ugc,hero` only those whose id starts with a listed prefix.
+ * Without the flag, existing assets are left untouched.
+ */
+const replaceArg = process.argv.find((arg) => arg.startsWith('--replace-images'))
+const replacePrefixes = replaceArg ? (replaceArg.split('=')[1]?.split(',') ?? ['']) : []
+const replacedIds = new Set<string>()
+const shouldReplace = (id: string) =>
+  !replacedIds.has(id) && replacePrefixes.some((prefix) => id.startsWith(prefix))
+
 /** Returns a link to the asset, or undefined when there is nothing to link. */
 async function upsertAsset(image: Image | undefined): Promise<Link | undefined> {
   if (!image) return undefined
-  if (await getAsset(image.id)) return link('Asset', image.id)
+  const existing = await getAsset(image.id)
+  if (existing && !shouldReplace(image.id)) return link('Asset', image.id)
 
   const filePath = findImageFile(image.id)
-  if (!filePath) return undefined
+  if (!filePath) return existing ? link('Asset', image.id) : undefined
 
   const ext = extname(filePath)
   const upload = await client.upload.create({}, { file: createReadStream(filePath) })
-  const draft = await client.asset.createWithId(
-    { assetId: image.id },
-    {
-      fields: {
-        title: { [DEFAULT_LOCALE]: image.alt },
-        description: { [DEFAULT_LOCALE]: image.alt },
-        file: {
-          [DEFAULT_LOCALE]: {
-            contentType: MIME_TYPES[ext] ?? 'application/octet-stream',
-            fileName: `${image.id}${ext}`,
-            uploadFrom: { sys: { type: 'Link', linkType: 'Upload', id: upload.sys.id } },
-          },
+  const fields = {
+    title: { [DEFAULT_LOCALE]: image.alt },
+    description: { [DEFAULT_LOCALE]: image.alt },
+    file: {
+      [DEFAULT_LOCALE]: {
+        contentType: MIME_TYPES[ext] ?? 'application/octet-stream',
+        fileName: `${image.id}${ext}`,
+        uploadFrom: {
+          sys: { type: 'Link' as const, linkType: 'Upload' as const, id: upload.sys.id },
         },
       },
     },
-  )
+  }
+  const draft = existing
+    ? await client.asset.update({ assetId: image.id }, { ...existing, fields })
+    : await client.asset.createWithId({ assetId: image.id }, { fields })
   const processed = await client.asset.processForAllLocales({}, draft)
   await client.asset.publish({ assetId: image.id }, processed)
-  console.log(`asset    ${image.id}`)
+  replacedIds.add(image.id)
+  console.log(`asset    ${image.id}${existing ? ' (replaced)' : ''}`)
   return link('Asset', image.id)
 }
 
@@ -196,6 +210,7 @@ async function sectionFields(section: Section): Promise<FieldValues> {
       return {
         description: section.description,
         gallery: await upsertAssets(section.gallery),
+        galleryMobile: await upsertAssets(section.galleryMobile),
         testimonials: await upsertAll(section.testimonials, upsertTestimonial),
         ...ctaValues(section.cta),
       }

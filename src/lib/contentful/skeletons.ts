@@ -100,6 +100,7 @@ export type ReviewsSectionSkeleton = {
     heading: F.Symbol
     description?: F.Text
     gallery?: Images
+    galleryMobile?: Images
     testimonials?: F.Array<F.EntryLink<TestimonialSkeleton>>
   }
 }

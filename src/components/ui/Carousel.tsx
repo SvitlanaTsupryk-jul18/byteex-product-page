@@ -12,6 +12,10 @@ interface CarouselProps {
   className?: string
   showDots?: boolean
   showArrows?: boolean
+  /** Position of the arrows (default: 16px outside the slides, vertically centred). */
+  prevClassName?: string
+  nextClassName?: string
+  dotsClassName?: string
 }
 
 /**
@@ -27,6 +31,9 @@ export function Carousel({
   className,
   showDots = false,
   showArrows = true,
+  prevClassName = 'mr-4',
+  nextClassName = 'ml-4',
+  dotsClassName,
 }: CarouselProps) {
   const trackRef = useRef<HTMLUListElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
@@ -122,7 +129,7 @@ export function Carousel({
               type="button"
               onClick={() => scrollByStep(-1)}
               aria-label="Previous slide"
-              className={cn(arrowClass, 'right-full mr-4')}
+              className={cn(arrowClass, 'right-full', prevClassName)}
             >
               <ChevronIcon direction="left" className={chevronClass} />
             </button>
@@ -130,7 +137,7 @@ export function Carousel({
               type="button"
               onClick={() => scrollByStep(1)}
               aria-label="Next slide"
-              className={cn(arrowClass, 'left-full ml-4')}
+              className={cn(arrowClass, 'left-full', nextClassName)}
             >
               <ChevronIcon direction="right" className={chevronClass} />
             </button>
@@ -139,7 +146,7 @@ export function Carousel({
       </div>
 
       {showDots && positionCount > 1 && (
-        <div className="mt-4 flex justify-center gap-2">
+        <div className={cn('mt-4 flex justify-center gap-2', dotsClassName)}>
           {Array.from({ length: positionCount }, (_, index) => (
             <button
               key={index}
