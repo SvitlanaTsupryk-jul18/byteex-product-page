@@ -110,8 +110,10 @@ format check, lint, type check, tests and build on every push.
 
 - **Fonts:** the mockup uses Sofia Pro and Suisse Int'l, which are commercial.
   Jost and Inter are used as free look-alikes, so some line breaks differ slightly.
-- **Placeholders:** payment method badges and the water drop icon are drawn in code
-  until the original assets are exported from Figma.
+- **Placeholder:** the water drop icon is drawn in code until the original is exported from Figma.
+- **Deliberate changes from the mockup:** customer photos run as two endless rows moving in
+  opposite directions (paused on hover, static with reduced motion), and the closing
+  section uses the CTA with star rating on all screens.
 - **1x photos:** some photos were exported at 1x and look soft on retina screens.
 
 ## Accessibility

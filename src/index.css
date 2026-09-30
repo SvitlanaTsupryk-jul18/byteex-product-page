@@ -40,6 +40,15 @@
 
   /* Wide enough for elements that hang outside the container (e.g. gallery arrows). */
   --breakpoint-wide: 87.5rem;
+
+  /* Endless photo rows in the reviews section (see Marquee.tsx). */
+  --animate-marquee: marquee var(--marquee-duration, 40s) linear infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 @layer base {

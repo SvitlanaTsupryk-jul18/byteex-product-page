@@ -1,8 +1,7 @@
 import type { Image, ReviewsSection as ReviewsSectionData } from '@/types/content'
-import { cn } from '@/lib/cn'
 import { Carousel } from '../ui/Carousel'
 import { CtaWithRating } from '../ui/CtaWithRating'
-import { ResponsiveImage } from '../ui/ResponsiveImage'
+import { Marquee } from '../ui/Marquee'
 import { TestimonialCard } from './TestimonialCard'
 
 interface Props {
@@ -13,21 +12,37 @@ interface Props {
 /** Photos shown on phones when no separate mobile selection exists. */
 const MOBILE_GALLERY_SIZE = 8
 
-function PhotoGrid({ images, className }: { images: Image[]; className: string }) {
+/** Splits photos into the top and bottom row. */
+const splitRows = (images: Image[]): [Image[], Image[]] => {
+  const middle = Math.ceil(images.length / 2)
+  return [images.slice(0, middle), images.slice(middle)]
+}
+
+/** Two endless rows moving in opposite directions. */
+function PhotoRows({
+  images,
+  repeat,
+  tileClassName,
+  className,
+}: {
+  images: Image[]
+  repeat: number
+  tileClassName: string
+  className: string
+}) {
+  const [top, bottom] = splitRows(images)
   return (
-    <ul className={cn('grid gap-[0.3125rem] lg:gap-1.5', className)}>
-      {images.map((image) => (
-        <li key={image.id}>
-          <ResponsiveImage image={image} aspectRatio={1} sizes="130px" className="w-full" />
-        </li>
-      ))}
-    </ul>
+    <div className={className}>
+      <Marquee images={top} repeat={repeat} tileClassName={tileClassName} />
+      <Marquee images={bottom} repeat={repeat} reverse tileClassName={tileClassName} />
+    </div>
   )
 }
 
 /**
  * "What are our fans saying?" — user photos and testimonials.
- * Photo grid is full-bleed: 4 x 2 on mobile, 11 x 2 on desktop.
+ * Photos run in two endless full-bleed rows moving in opposite directions:
+ * the mobile selection (4 + 4) below lg, the full gallery (11 + 11) above.
  * Testimonials: one card per slide on mobile, three per view on desktop.
  * The track has inner padding so card shadows are not clipped by its overflow.
  * On mobile all cards share the tallest height, so the dots stay right below them.
@@ -56,10 +71,17 @@ export function ReviewsSection({ section, ratingText }: Props) {
 
       {section.gallery.length > 0 && (
         <>
-          <PhotoGrid images={mobilePhotos} className="mt-10 grid-cols-4 lg:hidden" />
-          <PhotoGrid
+          <PhotoRows
+            images={mobilePhotos}
+            repeat={3}
+            tileClassName="w-[6.4375rem]"
+            className="mt-10 flex flex-col gap-[0.3125rem] lg:hidden"
+          />
+          <PhotoRows
             images={section.gallery}
-            className="mt-[3.25rem] hidden grid-cols-11 lg:grid"
+            repeat={2}
+            tileClassName="w-32"
+            className="mt-[3.25rem] hidden flex-col gap-1.5 lg:flex"
           />
         </>
       )}
