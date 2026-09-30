@@ -28,6 +28,8 @@ Add credentials (below) to read the live content from Contentful.
 ```bash
 npm run cms:setup   # creates/updates content types from scripts/contentful/model.ts
 npm run cms:seed    # creates/updates and publishes entries and images
+npm run cms:seed -- --replace-images      # also re-upload images that already exist
+npm run cms:seed -- --replace-images=ugc  # only images whose id starts with "ugc"
 ```
 
 Both scripts are idempotent and can be re-run safely.
