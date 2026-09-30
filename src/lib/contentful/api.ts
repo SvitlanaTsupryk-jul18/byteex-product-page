@@ -1,13 +1,10 @@
 import type { LandingPage } from '@/types/content'
-import { getContentfulClient } from './client'
+import { ContentfulError, getEntries } from './client'
 import { CONTENT_TYPE } from './contentTypes'
 import { mapLandingPage } from './mappers'
-import type { LandingPageSkeleton } from './skeletons'
+import type { LandingPageSkeleton, ResolvedEntry } from './skeletons'
 
-/**
- * Link depth needed for the deepest path:
- * page -> section -> testimonial -> avatar asset.
- */
+/** Link depth of the deepest path: page -> section -> testimonial -> avatar asset. */
 const INCLUDE_DEPTH = 4
 
 export class ContentNotFoundError extends Error {
@@ -17,26 +14,24 @@ export class ContentNotFoundError extends Error {
   }
 }
 
-/**
- * The Contentful SDK serialises API error details into `error.message` as JSON.
- * An unknown content type means the model was never created in this space.
- */
+/** An unknown content type means the model was never created in this space. */
 function isMissingContentModel(error: unknown): boolean {
-  return error instanceof Error && error.message.includes('unknownContentType')
+  return (
+    error instanceof ContentfulError &&
+    JSON.stringify(error.details ?? '').includes('unknownContentType')
+  )
 }
 
 /** Fetches a landing page with all linked sections in a single request. */
 export async function fetchLandingPage(slug: string): Promise<LandingPage> {
-  let response
+  let entries: ResolvedEntry<LandingPageSkeleton>[]
   try {
-    response = await getContentfulClient().withoutUnresolvableLinks.getEntries<LandingPageSkeleton>(
-      {
-        content_type: CONTENT_TYPE.landingPage,
-        'fields.slug': slug,
-        include: INCLUDE_DEPTH,
-        limit: 1,
-      },
-    )
+    entries = await getEntries<ResolvedEntry<LandingPageSkeleton>>({
+      content_type: CONTENT_TYPE.landingPage,
+      'fields.slug': slug,
+      include: INCLUDE_DEPTH,
+      limit: 1,
+    })
   } catch (error) {
     if (isMissingContentModel(error)) {
       throw new ContentNotFoundError(
@@ -46,7 +41,7 @@ export async function fetchLandingPage(slug: string): Promise<LandingPage> {
     throw error
   }
 
-  const entry = response.items[0]
+  const entry = entries[0]
   if (!entry) {
     throw new ContentNotFoundError(
       `Landing page "${slug}" is not published in Contentful. Run "npm run cms:seed" or publish it in the web app.`,
