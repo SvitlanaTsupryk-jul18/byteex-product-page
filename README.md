@@ -106,6 +106,24 @@ Components depend only on domain types. Contentful responses are mapped in
 and the image URL helpers. GitHub Actions (`.github/workflows/ci.yml`) runs
 format check, lint, type check, tests and build on every push.
 
+Checked manually in Chrome, Safari (WebKit) and Firefox at 390px and 1465px:
+same layout in all three, no horizontal overflow, no console errors.
+
+## Deployment (GitHub Pages)
+
+`.github/workflows/deploy.yml` builds and publishes `dist` on every push to `main`.
+
+1. In the repository settings, open **Pages** and set the source to **GitHub Actions**.
+2. Under **Secrets and variables → Actions**, add:
+   - variable `VITE_CONTENTFUL_SPACE_ID`
+   - variable `VITE_CONTENTFUL_ENVIRONMENT` (optional, defaults to `master`)
+   - secret `VITE_CONTENTFUL_ACCESS_TOKEN` (the read-only Delivery token)
+3. Push to `main` or run the workflow by hand.
+
+The workflow sets `BASE_PATH=/<repo-name>/`, which becomes Vite's `base`.
+Content edits in Contentful show up without a redeploy, because the page
+refetches content after load. A redeploy only refreshes the prerendered HTML.
+
 ## Known gaps
 
 - **Fonts:** the mockup uses Sofia Pro and Suisse Int'l, which are commercial.

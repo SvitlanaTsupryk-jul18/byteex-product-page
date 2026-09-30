@@ -7,6 +7,8 @@ import { contentfulHtml } from './scripts/vite/contentful-html.ts'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
+  // GitHub Pages serves the site from /<repo>/; the deploy workflow sets BASE_PATH.
+  base: process.env.BASE_PATH || '/',
   plugins: [react(), tailwindcss(), contentfulHtml(loadEnv(mode, process.cwd(), 'VITE_'))],
   resolve: {
     alias: {
