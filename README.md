@@ -1,11 +1,11 @@
+**Live site:** https://svitlanatsupryk-jul18.github.io/byteex-product-page/
+
 # Byteex Product Page
 
 Responsive product landing page built from the Byteex Figma mockup.
 All page content comes from **Contentful** (headless CMS).
 
 **Stack:** Vite · React 19 · TypeScript (strict) · Tailwind CSS v4 · Contentful
-
-**Live site:** https://svitlanatsupryk-jul18.github.io/byteex-product-page/
 
 ## For reviewers
 
