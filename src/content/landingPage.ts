@@ -253,17 +253,19 @@ export const landingPageContent: LandingPage = {
       heading: 'Find something you love.',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lobortis sapien facilisis tincidunt pellentesque. In eget ipsum et felis finibus consequat.',
+      // One composed collage exported from Figma (three photos + backdrop).
       images: [
-        image('cta-1', 'Woman in a green loungewear set'),
-        image('cta-2', 'Woman in a patterned yellow set'),
-        image('cta-3', 'Woman in a cropped loungewear set'),
+        image(
+          'cta',
+          'Three women in Byteex loungewear: a green set, a yellow floral pyjama set and a cropped set',
+        ),
       ],
       cta: PRIMARY_CTA,
       shippingNote: 'Ships in 1-2 Days',
       perks: [
         { id: 'perk-shipping', title: 'FREE Shipping on Orders over $200', icon: 'truck' },
         { id: 'perk-reviews', title: 'Over 500+ 5 Star Reviews Online', icon: 'shield' },
-        { id: 'perk-ethics', title: 'Made ethically and responsibly.', icon: 'hanger' },
+        { id: 'perk-ethics', title: 'Made ethically and responsibly.', icon: 'ecoCart' },
       ],
     },
   ],

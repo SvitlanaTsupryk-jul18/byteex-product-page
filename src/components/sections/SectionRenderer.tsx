@@ -34,7 +34,7 @@ export function SectionRenderer({ section, ratingText }: Props) {
     case 'impact':
       return <ImpactSection section={section} />
     case 'cta':
-      return <FinalCtaSection section={section} />
+      return <FinalCtaSection section={section} ratingText={ratingText} />
     default: {
       // Compile-time check that every section type is handled.
       const unhandled: never = section
