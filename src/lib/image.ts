@@ -11,6 +11,8 @@ export interface ImageTransform {
   height?: number
   quality?: number
   fit?: 'fill' | 'pad' | 'scale' | 'crop' | 'thumb'
+  /** WebP for the page; JPEG where WebP support is patchy (social link previews). */
+  format?: 'webp' | 'jpg'
 }
 
 export const isContentfulImage = (url: string) => url.includes(CONTENTFUL_IMAGE_HOST)
@@ -18,9 +20,12 @@ export const isContentfulImage = (url: string) => url.includes(CONTENTFUL_IMAGE_
 const isVector = (url: string) => url.toLowerCase().endsWith('.svg')
 
 /** Builds a resized, re-encoded image url. Non-Contentful urls are returned unchanged. */
-export function imageUrl(url: string, { width, height, quality = 75, fit }: ImageTransform = {}) {
+export function imageUrl(
+  url: string,
+  { width, height, quality = 75, fit, format = 'webp' }: ImageTransform = {},
+) {
   if (!isContentfulImage(url) || isVector(url)) return url
-  const params = new URLSearchParams({ fm: 'webp', q: String(quality) })
+  const params = new URLSearchParams({ fm: format, q: String(quality) })
   if (width) params.set('w', String(Math.round(width)))
   if (height) params.set('h', String(Math.round(height)))
   if (fit) params.set('fit', fit)
