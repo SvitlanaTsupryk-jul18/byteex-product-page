@@ -28,9 +28,13 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Provides the public address of the site (https://<owner>.github.io/<repo>).
+      - id: pages
+        uses: actions/configure-pages@v5
       - run: npm run build
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
+          VITE_SITE_URL: ${{ steps.pages.outputs.base_url }}
           # Accepted from either Variables or Secrets, whichever tab they were added to.
           VITE_CONTENTFUL_SPACE_ID: ${{ vars.VITE_CONTENTFUL_SPACE_ID || secrets.VITE_CONTENTFUL_SPACE_ID }}
           VITE_CONTENTFUL_ENVIRONMENT: ${{ vars.VITE_CONTENTFUL_ENVIRONMENT || 'master' }}
