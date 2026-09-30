@@ -134,6 +134,15 @@ refetches content after load. A redeploy only refreshes the prerendered HTML.
   section uses the CTA with star rating on all screens.
 - **1x photos:** some photos were exported at 1x and look soft on retina screens.
 
+## SEO
+
+- Title and description come from the Landing page entry in Contentful.
+- Open Graph and Twitter tags give link previews a 1200 x 630 JPEG cropped from the hero photo.
+- JSON-LD describes the organization, website and page. It has no Product with
+  ratings, because Google requires real price and review data the CMS does not hold.
+- `VITE_SITE_URL` enables `canonical` and `og:url`. The deploy workflow sets it automatically.
+- All tags are prerendered into the static HTML, so crawlers that skip JavaScript still see them.
+
 ## Accessibility
 
 Semantic landmarks and headings, WAI-ARIA accordion and carousel patterns,
