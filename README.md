@@ -91,7 +91,6 @@ Editors can reorder, add or remove sections in Contentful without code changes.
 | `npm run lint`      | Lint with oxlint                      |
 | `npm run typecheck` | Type-check only                       |
 | `npm run format`    | Format with Prettier                  |
-| `npm test`          | Run unit tests (Vitest)               |
 | `npm run cms:setup` | Apply the content model to Contentful |
 | `npm run cms:seed`  | Seed Contentful with initial content  |
 
@@ -131,15 +130,6 @@ Components depend only on domain types. Contentful responses are mapped in
 - Logo and icons are inline SVG, so they need no extra requests.
 - Carousel is native CSS scroll-snap, with no slider library.
 - Fallback content is code-split and never loaded when Contentful is configured.
-
-## Testing
-
-`npm test` runs unit tests for Contentful link resolution, the entry mappers
-and the image URL helpers. GitHub Actions (`.github/workflows/ci.yml`) runs
-format check, lint, type check, tests and build on every push.
-
-Checked manually in Chrome, Safari (WebKit) and Firefox at 390px and 1465px:
-same layout in all three, no horizontal overflow, no console errors.
 
 ## Deployment (GitHub Pages)
 
