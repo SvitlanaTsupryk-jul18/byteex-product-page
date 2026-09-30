@@ -5,6 +5,34 @@ All page content comes from **Contentful** (headless CMS).
 
 **Stack:** Vite · React 19 · TypeScript (strict) · Tailwind CSS v4 · Contentful
 
+**Live site:** https://svitlanatsupryk-jul18.github.io/byteex-product-page/
+
+## For reviewers
+
+A short guide to the parts worth checking, mapped to the evaluation criteria.
+
+| Criterion                     | Where to look                                                                                                                                                                                                               |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Accuracy to the design        | Live site at 1465px (desktop mockup) and 428px (mobile mockup). Differences are listed in [Known gaps](#known-gaps).                                                                                                        |
+| Headless CMS, dynamic content | Every text, image and the order of sections come from Contentful. The content model is code in `scripts/contentful/model.ts`.                                                                                               |
+| Code quality                  | Data flows one way: `lib/contentful` (fetch, link resolution, mapping) → domain types in `types/content.ts` → components. Components never see raw CMS data.                                                                |
+| Responsiveness and browsers   | Fluid layout from 320px up. Checked in Chrome, Safari (WebKit) and Firefox.                                                                                                                                                 |
+| Performance                   | Page is prerendered at build time. Lighthouse mobile: 96 performance, 100 accessibility, 100 best practices, 100 SEO. Desktop: 100 in all four.                                                                             |
+| Git                           | Conventional Commits, one step per commit. Feature work goes through a branch and a pull request, see [PR #1](https://github.com/SvitlanaTsupryk-jul18/byteex-product-page/pull/1). CI runs on every push and pull request. |
+
+**Running it locally:** the fastest way is `npm install && npm run dev`. Without
+Contentful credentials the page renders the bundled seed texts with empty image
+placeholders, because all photos live in Contentful. The read-only credentials
+for the live space are in the submission email; put them into `.env` to see
+the full page. Editor access to the Contentful space is available on request.
+
+**Main files to read:**
+
+- `src/lib/contentful/` — Delivery API client, link resolution, typed mappers
+- `src/components/sections/` — one component per page section, rendered by `SectionRenderer`
+- `src/components/ui/` — carousel (CSS scroll-snap), accordion (WAI-ARIA), marquee, responsive image
+- `scripts/vite/contentful-html.ts` and `scripts/prerender.mjs` — build-time content snapshot and prerendering
+
 ## Quick start
 
 ```bash
@@ -89,6 +117,10 @@ Components depend only on domain types. Contentful responses are mapped in
 
 ## Performance
 
+- The build fetches the page from Contentful once, embeds the response in `index.html`
+  and prerenders the markup. The browser shows content before any JavaScript runs,
+  then React hydrates it and refetches content in the background, so CMS edits
+  appear without a rebuild.
 - Whole page is fetched in **one** Delivery API request (`include: 4`) by a small
   `fetch` client instead of the Contentful SDK (JS bundle 87 kB gzip instead of 132 kB).
   The token is sent as a query parameter, so there is no CORS preflight.
@@ -128,11 +160,9 @@ refetches content after load. A redeploy only refreshes the prerendered HTML.
 
 - **Fonts:** the mockup uses Sofia Pro and Suisse Int'l, which are commercial.
   Jost and Inter are used as free look-alikes, so some line breaks differ slightly.
-- **Placeholder:** the water drop icon is drawn in code until the original is exported from Figma.
 - **Deliberate changes from the mockup:** customer photos run as two endless rows moving in
   opposite directions (paused on hover, static with reduced motion), and the closing
   section uses the CTA with star rating on all screens.
-- **1x photos:** some photos were exported at 1x and look soft on retina screens.
 
 ## SEO
 
@@ -150,7 +180,9 @@ labelled icon buttons, visible focus styles and `prefers-reduced-motion` support
 
 ## Git workflow
 
-- `main` is the only branch, with a linear history
-- Each commit is a small, self-contained step of the development process
+- `main` keeps a linear history with no merge commits.
+- Each commit is a small, self-contained step of the development process.
+- Features go through a branch and a pull request, merged with "Rebase and merge"
+  after CI passes. The first one is [PR #1](https://github.com/SvitlanaTsupryk-jul18/byteex-product-page/pull/1).
 
 Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/).
